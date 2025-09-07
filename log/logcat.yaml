@@ -1,0 +1,63 @@
+Source:
+  format:
+    match: sequence
+    children:
+      - match: sequence
+        name: timestamp
+        children:
+          - match: till
+            token: ' '
+          - match: whiteSpace
+          - match: till
+            token: ' '
+          - match: whiteSpace
+
+      - match: till
+        token: ' '
+        name: pid
+      - match: whiteSpace
+
+      - match: till
+        token: ' '
+        name: tid
+      - match: whiteSpace
+
+      - match: till
+        token: ' '
+        name: priority
+      - match: whiteSpace
+
+      - match: restOfTheLine
+        name: message
+      - match: optional
+        child: { match: linebreak }
+
+  encoding: latin1
+
+Attributes:
+  - name: "Timestamp"
+    source: timestamp
+    type: AbsoluteTime
+    options: [ timeline ]
+
+  - name: "PID"
+    source: pid
+    type: Int
+
+  - name: "TID"
+    source: tid
+    type: Int
+
+  - name: "Severity"
+    source: priority
+    type: String
+
+  - name: "Tag"
+    source: message
+    transform: [ '^[^:]+(?=:)' ]
+    type: String
+
+  - name: "Message"
+    source: message
+    transform: [ '(?:^[^:]*:\s*)?(.*)$' ]
+    type: String
