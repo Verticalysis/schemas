@@ -1,0 +1,84 @@
+Source:
+  format:
+    match: sequence
+    children:
+      - match: char
+        token: '<'
+
+      - match: till
+        token: '>'
+        name: priority
+      - match: char
+        token: '>'
+
+      - match: char
+        token: '1'
+
+      - match: whiteSpace
+
+      - match: till
+        token: ' '
+        name: timestamp
+      - match: whiteSpace
+
+      - match: till
+        token: ' '
+        name: hostname
+      - match: whiteSpace
+
+      - match: till
+        token: ' '
+        name: appname
+      - match: whiteSpace
+
+      - match: till
+        token: ' '
+        name: pid
+      - match: whiteSpace
+
+      - match: till
+        token: ' '
+        name: messageid
+      - match: whiteSpace
+
+      - match: restOfTheLine
+        name: message
+      - match: linebreak
+
+  encoding: utf8
+
+
+Attributes:
+  - name: "Priority"
+    source: priority
+    type: Int
+
+  - name: "Timestamp"
+    source: timestamp
+    type: AbsoluteTime
+
+  - name: "Host Name"
+    source: hostname
+    type: String
+
+  - name: "App Name"
+    source: appname
+    type: String
+
+  - name: "PID"
+    source: pid
+    type: Int
+
+  - name: "Message ID"
+    source: messageid
+    type: String
+
+  - name: "Structured Data"
+    source: message
+    type: String
+    transform: [ '^((?:\[(?:[^\]\\]|\\.)*\])+)r' ]
+
+  - name: "Message"
+    source: message
+    type: String
+    transform: [ '^(?:(?:\[(?:[^\]\\]|\\.)*\])+|-) ?(.*)r' ]
