@@ -1,0 +1,20 @@
+Source:
+  format: annotated_csv
+
+Attributes:
+  - name: "Timestamp"
+    source: "DateTime"
+    type: AbsoluteTime
+
+  - name: "Domain"
+    source: "NavigatedToUrl"
+    transform: [ '^(?:https?:\/\/)?(?:www\.)?([^\/?]+)r' ]
+    type: String
+
+  - name: "PageTitle"
+    source: "PageTitle"
+    type: String
+
+  - name: "Address"
+    source: "NavigatedToUrl"
+    type: String
