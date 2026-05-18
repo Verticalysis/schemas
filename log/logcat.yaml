@@ -54,10 +54,10 @@ Attributes:
 
   - name: "Tag"
     source: message
-    transform: [ '^[^:]+(?=:)' ]
+    transform: [ '^([^:]+):r' ]
     type: String
 
   - name: "Message"
     source: message
-    transform: [ '(?:^[^:]*:\s*)?(.*)$' ]
+    transform: [ '(?:^[^:]*:\s*)?(.*)$r' ]
     type: String
